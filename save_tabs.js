@@ -9,8 +9,14 @@ function onError(error) {
 
 function saveTabs(tabs) {
   var allTabs = [];
+  var notSaved = 0;
   for (let tab of tabs) {
     // tab.url and tab.title require the `tabs` permission
+    if (tab.url === "about:blank") {
+      notSaved++;
+      continue;
+    }
+
     var tabInfo = {
       "title" : tab.title,
       "url" : tab.url,
@@ -21,6 +27,7 @@ function saveTabs(tabs) {
   var now = new Date();
   var metaData = {
     "tabCount" : tabCount,
+    "notSaved" : notSaved,
     "dateString" : now.toString(),
     "ISOString" : now.toISOString(),
     "localeString" : now.toLocaleString(),
